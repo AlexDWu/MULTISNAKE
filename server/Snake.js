@@ -37,4 +37,21 @@ var Snake = function(startDirection, startPosition, startColor, startSize){
   }
 }
 
+// Increments the snake
+// - The game will provide the next position, because
+//   snake doesn't know about the game boarders
+Snake.prototype.move = function(nextposition){
+  this.body.unshift(nextposition);
+// Returns the positions of segements removed from the body.
+// (maybe an empty array). 
+  var output = []
+// Tail won't be removed if queue is smaller than the 
+// snake's size. this might happen when the snake eats food.
+// Not sure why more than one segment will be removed yet.
+  while(this.body.length > this.size){
+    output.push(this.body.pop());
+  }
+  return output;
+}
+
 module.exports = Snake;
