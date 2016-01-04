@@ -1,0 +1,22 @@
+{
+  "name": "multi-snake",
+  "version": "1.0.0",
+  "description": "Snake game with more snakes.",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexDWu/2015-11-mvp.git"
+  },
+  "author": "Alex Wu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexDWu/2015-11-mvp/issues"
+  },
+  "homepage": "https://github.com/AlexDWu/2015-11-mvp#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
