@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AlexDWu/2015-11-mvp#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "express-session": "^1.12.1"
   }
 }
