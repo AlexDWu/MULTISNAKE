@@ -14,6 +14,7 @@ var Snake = function(startDirection, startPosition, startColor, startSize){
   this.color = startColor;
   this.size = startSize // default starting size
   this.body = [] // queue for storing positon of body segments
+  this.dead = false // is the snake dead or alive?
 
   // - Push initial positions into body
   // - Body segemnts will line up behind the head
@@ -38,10 +39,11 @@ var Snake = function(startDirection, startPosition, startColor, startSize){
 }
 
 // Increments the snake
-// - The game will provide the next position, because
-//   snake doesn't know about the game boarders
-Snake.prototype.move = function(nextposition){
-  this.body.unshift(nextposition);
+// - The game will provide the next position of the head, 
+// because snake doesn't know about the game boarders
+Snake.prototype.move = function (nextposition) {
+  this.head = nextposition || this.head;
+  this.body.unshift(this.head);
 // Returns the positions of segements removed from the body.
 // (maybe an empty array). 
   var output = []
@@ -52,6 +54,12 @@ Snake.prototype.move = function(nextposition){
     output.push(this.body.pop());
   }
   return output;
-}
+};
+
+// Not sure how a snake will die yet
+Snake.prototype.die = function () {
+  this.dead = true;
+};
+
 
 module.exports = Snake;
