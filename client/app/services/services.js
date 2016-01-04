@@ -1,4 +1,4 @@
-angular.module('multisnake.services', [])
+angular.module('multiSnake.services', [])
 
 .factory('Game', function ($http) {
 return {
@@ -15,8 +15,14 @@ return {
   },
 
   setDirection: function(direction){
-    return $http.post('/api/direction').then(function(response){
-      return respones.data;
+    return $http.post('/api/direction', direction).then(function(response){
+      return response.data;
+    });
+  },
+
+  ready: function(state){
+    return $http.post('/api/ready', state).then(function(response){
+      return response.data;
     });
   },
 };
