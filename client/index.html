@@ -8,6 +8,7 @@
   <body ng-controller="mapController" ng-keydown="setDirection($event)">
     <div>
     <button ng-click="ready()">READY!</button>
+    <span ng-style="{'color': data.color}">YOU ARE {{data.color}}</span>
     <div>{{data.ready}}</div>
       <table class='map'>
         <tr ng-repeat="row in data.map track by $index">

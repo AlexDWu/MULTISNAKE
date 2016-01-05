@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var Snake = function(startDirection, startPosition, startColor, startSize){
+var Snake = function(options){
   // the Snake will keep track of it's position state
   // but it will assume the game will give it it's next
   // positions because Snake doesn't know the size of the
@@ -11,34 +11,13 @@ var Snake = function(startDirection, startPosition, startColor, startSize){
   // Down is positive y
   // Left is negative x
   // Right in positive x
-  this.direction = startDirection; // direciton of travel
-  this.head = startPosition; // x,y cordinates of the head
-  this.color = startColor;
-  this.size = startSize // default starting size
+  this.direction = options.direction; // direciton of travel
+  this.head = options.position; // x,y cordinates of the head
+  this.color = options.color;
+  this.size = options.size // default starting size
   this.body = [] // queue for storing positon of body segments
   this.dead = false // is the snake dead or alive?
   this.ready = false // is the snake/player ready?
-
-  // - Push initial positions into body
-  // - Body segemnts will line up behind the head
-  //   based off of the starting direction
-  // - Assumes board did the math so that none of it's
-  //   body segments will be off the board.
-  //   (then again, putting body segements off the board
-  //    isn't than big of a deal).
-  var nextSegment = this.head;
-  for(var i = 0; i < this.size; i++){
-    this.body.push[nextSegment];
-    if(this.direction === "up"){
-      nextSegment.y++;
-    } else if (this.direction === "down"){
-      nextSegment.y--;
-    } else if (this.direction === "left"){
-      nextSegment.x++;
-    } else if (this.direction === "right"){
-      nextSegment.x--;
-    }
-  }
 }
 
 // Increments the snake
@@ -72,6 +51,7 @@ Snake.prototype.setDirection = function (direction){
       (this.direction === "up" || this.direction === "down")))
   {
     this.direction = direction;
+    console.error(this.color + " snake changed direction " + this.direction);
   }
   return this.direction
 }

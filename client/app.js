@@ -28,10 +28,14 @@ angular.module('multiSnake', [])
   $scope.data.ready = false;
   $scope.data.map = [];
 
-  Game.connect();
+  Game.connect().then(function (data){
+    console.log(data);
+    $scope.data.color = data;
+  });
 
   $scope.ready = function () {
     Game.ready(!$scope.data.ready).then(function (data) {
+      console.log(data);
       $scope.data.ready = data;
     });
   };

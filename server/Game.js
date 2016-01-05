@@ -1,11 +1,19 @@
+var gameController = require("./gameController.js");
+var _ = require('underscore');
+
 var Game = function(width, height){
-  this.snakes = [] // array of snakes to keep track of
+  this.snakes = {} // array of snakes to keep track of
   this.width = width; // game board width
   this.height = height; // game board height
   this.gameBoard = []; // two dimentional array of colors
   this.speed = 500; // step interval;
   this.food = false;
+  this.started = false;
 
+  this.initBoard();
+};
+
+Game.prototype.initBoard = function(){
   // set up the game board
   for(var i = 0; i < this.height; i++){
     this.gameBoard[i] = [];
@@ -18,7 +26,7 @@ var Game = function(width, height){
 // step moves every snake forward
 Game.prototype.step = function () {
   var game = this;
-  this.snakes.forEach(function (snake) {
+  _.forEach(this.snakes,function (snake) {
     if(!snake.dead){
       if(snake.direction === "up"){
         // moving up is negative y
@@ -33,22 +41,23 @@ Game.prototype.step = function () {
         // moving right is positive x
         snake.head.x++;
       }
-      // eat food?
-      if (game.gameBoard[snake.head.y][snake.head.x] === "black"){
-        // reset space
-        game.gameBoard[snake.head.y][snake.head.x] = "grey";
-        // snake grows
-        snake.size++;
-        // need to place another food
-        game.food = false;
-      }
       // check collisions
       if(snake.head.x < 0 || snake.head.y < 0 ||
-        snake.head.x > game.width || snake.head.y > game.height ||
-        game.gameBoard[snake.head.y][snake.head.x] !== "grey"){
+        snake.head.x >= game.width || snake.head.y >= game.height ||
+        game.gameBoard[snake.head.y][snake.head.x] !== "grey" &&
+        game.gameBoard[snake.head.y][snake.head.x] !== "black"){
         snake.die()
       }
       if (!snake.dead){
+        // eat food?
+        if (game.gameBoard[snake.head.y][snake.head.x] === "black"){
+          // reset space
+          game.gameBoard[snake.head.y][snake.head.x] = "grey";
+          // snake grows
+          snake.size++;
+          // need to place another food
+          game.food = false;
+        }
         game.gameBoard[snake.head.y][snake.head.x] = snake.color;
         var oldSegments = snake.move();
         game.removeSegements(oldSegments);
@@ -72,32 +81,39 @@ Game.prototype.step = function () {
 }
 
 Game.prototype.gameOver = function(){
-  return this.snakes.reduce(function(memo, snake){
+  return _.reduce(this.snakes, function(memo, snake){
     return memo && snake.dead;
   },true);
 };
 
 Game.prototype.start = function(){
   // if all the snakes are ready
-  if (this.snakes.reduce(function (memo, snake) {
+  if (_.reduce(this.snakes,function (memo, snake) {
     return memo && snake.ready;
   }, true)) {
-    var game = this;
-    console.error("game start")
-    var intervalID = setInterval(function(){
-      if(game.gameOver()){
-        console.error("game over");
-        clearInterval(intervalID);
-      } else {
-        game.step();
-      }
-    }, this.speed);
+    if(!this.started){
+      var game = this;
+      console.error("game start");
+      game.started = true;
+      var intervalID = setInterval(function(){
+        if(game.gameOver()){
+          console.error("game over");
+          game.reset();
+          clearInterval(intervalID);
+        } else {
+          game.step();
+        }
+      }, this.speed);
+    }
   }
 };
 
-Game.prototype.addSnake = function(mySnake){
-  this.snakes.push(mySnake);
-  return mySnake;
+Game.prototype.addSnake = function(color, mySnake){
+  if(!this.started){
+    this.snakes[color] = mySnake;
+    console.error(color + " snake was added");
+    return mySnake;
+  }
 };
 
 Game.prototype.getBoard = function(){
@@ -107,6 +123,7 @@ Game.prototype.getBoard = function(){
 // maybe keep around in a cemetary for score keeping?
 Game.prototype.removeSnake = function(snake) {
   this.removeSegements(snake.body);
+  delete this.snakes[snake.color];
 };
 
 // remove body segmenst from the game board
@@ -116,5 +133,10 @@ Game.prototype.removeSegements = function(segments){
     game.gameBoard[position.y][position.x] = "grey";
   });
 };
+
+Game.prototype.reset = function (){
+  console.error("game reset");
+  this.started = false;
+}
 
 module.exports = Game;
