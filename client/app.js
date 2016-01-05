@@ -20,6 +20,10 @@ angular.module('multiSnake', [])
     ready: function(state){
       return $http.post('/api/ready', JSON.stringify(state)).then(genericResponseHandler);
     },
+
+    disconnect: function(){
+      return $http.get('/api/disconnect').then(genericResponseHandler);
+    }
   };
 })
 
@@ -27,11 +31,24 @@ angular.module('multiSnake', [])
   $scope.data = {};
   $scope.data.ready = false;
   $scope.data.map = [];
+  $scope.data.connected = false;
 
-  Game.connect().then(function (data){
-    console.log(data);
-    $scope.data.color = data;
-  });
+  $scope.connect = function () {
+    Game.connect().then(function (data){
+      if(data === "blue" || data === "red" || 
+        data === "green" || data === "orange"){
+        $scope.data.color = data;
+        $scope.data.connected = true;
+      }
+    });
+  };
+
+  $scope.disconnect = function(){
+    Game.disconnect().then(function(data){
+      delete $scope.data.color;
+      $scope.data.connected = false;
+    })
+  }
 
   $scope.ready = function () {
     Game.ready(!$scope.data.ready).then(function (data) {
@@ -66,5 +83,5 @@ angular.module('multiSnake', [])
     Game.getBoard().then(function(data){
       $scope.data.map = data;
     });  
-  }, 250);
+  }, 50);
 });

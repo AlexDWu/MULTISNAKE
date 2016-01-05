@@ -23,6 +23,7 @@ app.get('/api/board', gameController.getBoard);
 
 // connect to the game (create user's snake);
 app.get('/api/connect', gameController.connect);
+app.get('/api/disconnect', gameController.disconnect);
 
 // Player is ready
 app.post('/api/ready', gameController.ready);

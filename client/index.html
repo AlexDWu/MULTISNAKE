@@ -7,9 +7,11 @@
   </head>
   <body ng-controller="mapController" ng-keydown="setDirection($event)">
     <div>
-    <button ng-click="ready()">READY!</button>
-    <span ng-style="{'color': data.color}">YOU ARE {{data.color}}</span>
+    <div ng-style="{'color': data.color}">YOU ARE {{data.color}}</div>
     <div>{{data.ready}}</div>
+    <button ng-click="connect()" ng-show="!data.connected">Connect</button>
+    <button ng-click="disconnect()" ng-show="data.connected">Disconnect</button>
+    <button ng-click="ready()">READY!</button>
       <table class='map'>
         <tr ng-repeat="row in data.map track by $index">
           <td ng-repeat="cellColor in row track by $index" ng-style="{'background-color':cellColor}"></td>

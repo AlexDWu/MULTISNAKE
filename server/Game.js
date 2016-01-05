@@ -1,12 +1,15 @@
 var gameController = require("./gameController.js");
 var _ = require('underscore');
 
+var emptyColor = "#d3d3d3";
+var foodColor = "black";
+
 var Game = function(width, height){
   this.snakes = {} // array of snakes to keep track of
   this.width = width; // game board width
   this.height = height; // game board height
   this.gameBoard = []; // two dimentional array of colors
-  this.speed = 500; // step interval;
+  this.speed = 100; // step interval;
   this.food = false;
   this.started = false;
 
@@ -18,7 +21,7 @@ Game.prototype.initBoard = function(){
   for(var i = 0; i < this.height; i++){
     this.gameBoard[i] = [];
     for(var j = 0; j < this.width; j++){
-      this.gameBoard[i][j] = "grey";
+      this.gameBoard[i][j] = emptyColor;
     }
   }
 };
@@ -44,7 +47,7 @@ Game.prototype.step = function () {
       // check collisions
       if(snake.head.x < 0 || snake.head.y < 0 ||
         snake.head.x >= game.width || snake.head.y >= game.height ||
-        game.gameBoard[snake.head.y][snake.head.x] !== "grey" &&
+        game.gameBoard[snake.head.y][snake.head.x] !== emptyColor &&
         game.gameBoard[snake.head.y][snake.head.x] !== "black"){
         snake.die()
       }
@@ -52,7 +55,7 @@ Game.prototype.step = function () {
         // eat food?
         if (game.gameBoard[snake.head.y][snake.head.x] === "black"){
           // reset space
-          game.gameBoard[snake.head.y][snake.head.x] = "grey";
+          game.gameBoard[snake.head.y][snake.head.x] = emptyColor;
           // snake grows
           snake.size++;
           // need to place another food
@@ -71,7 +74,7 @@ Game.prototype.step = function () {
   while(!game.food){
     var x = Math.floor(Math.random() * game.width);
     var y = Math.floor(Math.random() * game.height);
-    if(game.gameBoard[y][x] === "grey"){
+    if(game.gameBoard[y][x] === emptyColor){
       game.gameBoard[y][x] = "black";
       game.food = true;
     }
@@ -130,7 +133,7 @@ Game.prototype.removeSnake = function(snake) {
 Game.prototype.removeSegements = function(segments){
   var game = this;
   segments.forEach(function(position){
-    game.gameBoard[position.y][position.x] = "grey";
+    game.gameBoard[position.y][position.x] = emptyColor;
   });
 };
 
