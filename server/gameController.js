@@ -3,11 +3,13 @@ var Snake = require('./Snake');
 
 myGame = new Game(40, 40);
 
+var snakeStore = [];
+
 module.exports = {
 
   setDirection: function(request, response, next){
     response.json("direction set to " + 
-      request.session.snake.setDirection(request.data));
+      snakeStore[request.session.snake].setDirection(request.body));
   },
 
   getBoard: function(request, response, next){
@@ -15,13 +17,14 @@ module.exports = {
   },
 
   connect: function(request, response, next){
-    request.session.snake = new Snake('up', {x:20,y:20} , 'blue', 5);
-    myGame.addSnake(request.session.snake);
-    response.end();
+    request.session.snake = 
+    snakeStore.push(new Snake('up', {x:20,y:20} , 'blue', 5)) - 1;
+    myGame.addSnake(snakeStore[request.session.snake]);
+    response.end("snake created");
   },
 
   ready: function(request, response, next){
-    request.session.snake.ready = request.data;
+    //request.session.snake.ready = request.body;
     myGame.start();
     response.json((request.body));
   },

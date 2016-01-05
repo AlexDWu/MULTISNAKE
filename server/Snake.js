@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var Snake = function(startDirection, startPosition, startColor, startSize){
   // the Snake will keep track of it's position state
   // but it will assume the game will give it it's next
@@ -44,7 +46,7 @@ var Snake = function(startDirection, startPosition, startColor, startSize){
 // because snake doesn't know about the game boarders
 Snake.prototype.move = function (nextposition) {
   this.head = nextposition || this.head;
-  this.body.unshift(this.head);
+  this.body.unshift(_.clone(this.head));
 // Returns the positions of segements removed from the body.
 // (maybe an empty array). 
   var output = []
@@ -59,16 +61,15 @@ Snake.prototype.move = function (nextposition) {
 
 // Not sure how a snake will die yet
 Snake.prototype.die = function () {
+  console.log('snake died');
   this.dead = true;
 };
 
 Snake.prototype.setDirection = function (direction){
-  if (((request.body === "up" || request.body === "down") && 
-    (session.snake.direction === "left" || 
-      session.snake.direction === "right")) || 
-    ((request.body === "left" || request.body == "right") &&
-      (session.snake.direction === "up" ||
-        session.snake.direction === "down")))
+  if (((direction === "up" || direction === "down") && 
+    (this.direction === "left" || this.direction === "right")) || 
+    ((direction === "left" || direction == "right") &&
+      (this.direction === "up" || this.direction === "down")))
   {
     this.direction = direction;
   }

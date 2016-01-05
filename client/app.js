@@ -35,6 +35,18 @@ angular.module('multiSnake', [])
     Game.ready(this.data.ready);
   };
 
+  $scope.setDirection = function ($event) {
+    var keyMap = {
+      40: "down",
+      37: "left",
+      39: "right",
+      38: "up"
+    }
+    if(keyMap[$event.keyCode]){
+      Game.setDirection(keyMap[$event.keyCode]);
+    }
+  };
+
   setInterval(function () {
     Game.getBoard().then(function(data){
       $scope.data.map = data;

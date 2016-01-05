@@ -62,11 +62,9 @@ Game.prototype.start = function(){
   if (this.snakes.reduce(function(memo, snake){
     return memo && snake.ready;
   }), true){
-    console.log("game start");
     var game = this;
     var intervalID = setInterval(function(){
       if(game.gameOver()){
-        console.log("game stop")
         clearInterval(intervalID);
       } else {
         game.step();
@@ -90,6 +88,10 @@ Game.prototype.removeSnake = function(snake) {
 
 // remove body segmenst from the game board
 Game.prototype.removeSegements = function(segments){
+  var game = this;
+  segments.forEach(function(position){
+    game.gameBoard[position.y][position.x] = "grey";
+  });
 };
 
 module.exports = Game;

@@ -5,9 +5,9 @@
     <title>MULTI SNAKE!</title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
   </head>
-  <body>
-    <div ng-controller = "mapController">
-    <button ng-click='ready();'>READY!</button>
+  <body ng-controller="mapController" ng-keydown="setDirection($event)">
+    <div>
+    <button ng-click="ready()">READY!</button>
     <div>{{data.ready}}</div>
       <table class='map'>
         <tr ng-repeat="row in data.map track by $index">
