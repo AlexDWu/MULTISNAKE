@@ -26,6 +26,10 @@ module.exports = {
   },
 
   ready: function(request, response, next){
+    request.session.snake.ready = request.data;
+    console.log('Player is ready!');
+    console.dir(request);
+    myGame.start();
     response.json((request.data));
   },
 

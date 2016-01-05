@@ -7,6 +7,7 @@
   </head>
   <body>
     <div ng-controller = "mapController">
+    <button ng-click='ready();'>READY!</button>
     <div>{{data.ready}}</div>
       <table class='map'>
         <tr ng-repeat="row in data.map track by $index">
