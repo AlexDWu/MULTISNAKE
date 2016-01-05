@@ -62,5 +62,18 @@ Snake.prototype.die = function () {
   this.dead = true;
 };
 
+Snake.prototype.setDirection = function (direction){
+  if (((request.body === "up" || request.body === "down") && 
+    (session.snake.direction === "left" || 
+      session.snake.direction === "right")) || 
+    ((request.body === "left" || request.body == "right") &&
+      (session.snake.direction === "up" ||
+        session.snake.direction === "down")))
+  {
+    this.direction = direction;
+  }
+  return this.direction
+}
+
 
 module.exports = Snake;

@@ -30,6 +30,7 @@ Game.prototype.step = function () {
         snake.head.x--;
       } else if(snake.direction === "right"){
         // moving right is positive x
+        snake.head.x++;
       }
       // check collisions
       if(snake.head.x < 0 || snake.head.y < 0 ||
@@ -37,6 +38,7 @@ Game.prototype.step = function () {
         snake.die()
       }
       if (!snake.dead){
+        game.gameBoard[snake.head.y][snake.head.x] = snake.color;
         var oldSegments = snake.move();
         game.removeSegements(oldSegments);
       }
@@ -56,7 +58,21 @@ Game.prototype.gameOver = function(){
 };
 
 Game.prototype.start = function(){
-  var intervalID = setInterval(function(){}, this.speed);
+  // if all the snakes are ready
+  if (this.snakes.reduce(function(memo, snake){
+    return memo && snake.ready;
+  }), true){
+    console.log("game start");
+    var game = this;
+    var intervalID = setInterval(function(){
+      if(game.gameOver()){
+        console.log("game stop")
+        clearInterval(intervalID);
+      } else {
+        game.step();
+      }
+    }, this.speed);
+  }
 };
 
 Game.prototype.addSnake = function(mySnake){

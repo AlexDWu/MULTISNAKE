@@ -14,11 +14,11 @@ angular.module('multiSnake', [])
     },
 
     setDirection: function(direction){
-      return $http.post('/api/direction', direction).then(genericResponseHandler);
+      return $http.post('/api/direction', JSON.stringify(direction)).then(genericResponseHandler);
     },
 
     ready: function(state){
-      return $http.post('/api/ready', state).then(genericResponseHandler);
+      return $http.post('/api/ready', JSON.stringify(state)).then(genericResponseHandler);
     },
   };
 })
@@ -33,7 +33,6 @@ angular.module('multiSnake', [])
   $scope.ready = function () {
     $scope.data.ready = !this.data.ready;
     Game.ready(this.data.ready);
-    console.log("playre is ready");
   };
 
   setInterval(function () {

@@ -1,5 +1,6 @@
 var express = require('express');
 var gameController = require('./gameController');
+var bodyParser = require('body-parser');
 
 var session = require('express-session');
 
@@ -10,6 +11,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+app.use(bodyParser.json({strict: false}));
 app.use(express.static(__dirname + '/../client'));
 
 // ROUTES

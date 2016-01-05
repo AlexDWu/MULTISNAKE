@@ -6,13 +6,8 @@ myGame = new Game(40, 40);
 module.exports = {
 
   setDirection: function(request, response, next){
-    if (request.data === "up" || request.data === "down" ||
-      requst.data ==="left" || request .data ==="right"){
-      request.session.snake.direction = request.data;
-      response.json("direction set to " + request.data);
-    } else {
-      response.status(400).send(request.data + " is not a valid direction");
-    }
+    response.json("direction set to " + 
+      request.session.snake.setDirection(request.data));
   },
 
   getBoard: function(request, response, next){
@@ -27,10 +22,8 @@ module.exports = {
 
   ready: function(request, response, next){
     request.session.snake.ready = request.data;
-    console.log('Player is ready!');
-    console.dir(request);
     myGame.start();
-    response.json((request.data));
+    response.json((request.body));
   },
 
 }
