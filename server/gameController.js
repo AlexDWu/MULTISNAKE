@@ -1,7 +1,9 @@
 var Game = require('./Game');
 var Snake = require('./Snake');
 
-model.exports = {
+myGame = new Game(40, 40);
+
+module.exports = {
 
   setDirection: function(request, response, next){
     if (request.data === "up" || request.data === "down" ||
@@ -14,16 +16,17 @@ model.exports = {
   },
 
   getBoard: function(request, response, next){
-    response.json(Game.getBoard());
+    response.json(myGame.getBoard());
   },
 
-  connnect: function(request, response, next){
-    request.session.snake = Game.addSnake();
+  connect: function(request, response, next){
+    request.session.snake = new Snake('up', {x:20,y:20} , 'blue', 5);
+    myGame.addSnake(request.session.snake);
     response.end();
-  }
+  },
 
   ready: function(request, response, next){
-    response.json(Game.read(request.data));
-  }
+    response.json((request.data));
+  },
 
 }

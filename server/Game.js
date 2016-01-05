@@ -1,4 +1,4 @@
-var Game = function(width, height)){
+var Game = function(width, height){
   this.snakes = [] // array of snakes to keep track of
   this.width = width; // game board width
   this.height = height; // game board height
@@ -38,13 +38,27 @@ Game.prototype.step = function () {
   });
 }
 
+Game.prototype.getBoard = function(){
+  for(var i = 0; i < this.height; i++){
+    this.gameBoard[i] = [];
+    for(var j = 0; j < this.width; j++){
+      this.gameBoard[i][j] = "grey";
+    }
+  }
+  return this.gameBoard;
+};
 // remove the snake from the game
 // maybe keep around in a cemetary for score keeping?
 Game.prototype.removeSnake = function(snake) {
 };
 
+Game.prototype.addSnake = function(mySnake){
+  this.snakes.push(mySnake);
+  return mySnake;
+};
+
 // remove body segmenst from the game board
 Game.prototype.removeSegements = function(segments){
-
 };
+
 module.exports = Game;

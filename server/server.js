@@ -1,5 +1,5 @@
 var express = require('express');
-var requestHandler = require('handler/requestHandler.js');
+var gameController = require('./gameController');
 
 var session = require('express-session');
 
@@ -21,3 +21,6 @@ app.get('/api/board', gameController.getBoard);
 
 // connect to the game (create user's snake);
 app.get('/api/connect', gameController.connect);
+
+app.listen(process.env.PORT || 8000);
+console.log('Listening to port: 8000');

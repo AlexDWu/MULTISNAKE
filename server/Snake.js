@@ -10,11 +10,12 @@ var Snake = function(startDirection, startPosition, startColor, startSize){
   // Left is negative x
   // Right in positive x
   this.direction = startDirection; // direciton of travel
-  this.head = startPositon; // x,y cordinates of the head
+  this.head = startPosition; // x,y cordinates of the head
   this.color = startColor;
   this.size = startSize // default starting size
   this.body = [] // queue for storing positon of body segments
   this.dead = false // is the snake dead or alive?
+  this.ready = false // is the snake/player ready?
 
   // - Push initial positions into body
   // - Body segemnts will line up behind the head

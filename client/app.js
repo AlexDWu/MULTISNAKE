@@ -36,10 +36,10 @@ angular.module('multiSnake', [])
   Game.connect();
 
   this.ready = function () {
-    this.data.ready = !this.data.ready;
+    $scope.data.ready = !this.data.ready;
     Game.ready(this.data.ready);
   }
   Game.getBoard().then(function(data){
-    this.data.board = data;
+    $scope.data.map = data;
   });
 });

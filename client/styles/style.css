@@ -1,6 +1,6 @@
 .map td{
   width: 10px;
   height: 10px;
-  border: 1px;
-  border-color: black;
+  padding: 0px;
+  margin: 0px;
 }
