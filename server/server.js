@@ -27,6 +27,7 @@ app.get('/api/disconnect', gameController.disconnect);
 
 // Player is ready
 app.post('/api/ready', gameController.ready);
+app.get('/api/playerstatus', gameController.playerStatus)
 
 app.listen(process.env.PORT || 8000);
 console.log('Listening to port: 8000');

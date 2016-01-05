@@ -4,3 +4,19 @@
   padding: 0px;
   margin: 0px;
 }
+
+.playerStatus{
+  display:block;
+  height: 90px;
+  padding: 0px;
+}
+
+.playerStatus div{
+  display:inline-block;
+  color: #d3d3d3;
+  width: 150px;
+}
+.playerStatus ul{
+}
+.playerStatus li{
+}

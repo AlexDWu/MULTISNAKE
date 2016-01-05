@@ -23,7 +23,11 @@ angular.module('multiSnake', [])
 
     disconnect: function(){
       return $http.get('/api/disconnect').then(genericResponseHandler);
-    }
+    },
+
+    getPlayerStatus: function () {
+      return $http.get('/api/playerstatus').then(genericResponseHandler);
+    },
   };
 })
 
@@ -32,6 +36,14 @@ angular.module('multiSnake', [])
   $scope.data.ready = false;
   $scope.data.map = [];
   $scope.data.connected = false;
+
+  var keyMap = {
+    40: "down",
+    37: "left",
+    39: "right",
+    38: "up",
+    current: "up"
+  };
 
   $scope.connect = function () {
     Game.connect().then(function (data){
@@ -57,13 +69,6 @@ angular.module('multiSnake', [])
     });
   };
 
-  var keyMap = {
-    40: "down",
-    37: "left",
-    39: "right",
-    38: "up",
-    current: "up"
-  };
 
   $scope.setDirection = function ($event) {
     if(keyMap[$event.keyCode]){
@@ -73,15 +78,24 @@ angular.module('multiSnake', [])
         ((direction === "left" || direction == "right") &&
           (keyMap.current === "up" || keyMap.current === "down")))
       {
-        keyMap.current = direction;
-        Game.setDirection(direction);
+        Game.setDirection(direction).then(function(data){
+          keyMap.current = data;
+        });
       }
     }
   };
 
+  // get game board
   $interval(function () {
-    Game.getBoard().then(function(data){
+    Game.getBoard().then(function (data) {
       $scope.data.map = data;
     });  
-  }, 50);
+  }, 62);
+
+  // get player status
+  $interval(function () {
+    Game.getPlayerStatus().then(function (data) {
+      $scope.data.playerStatus = data;
+    })
+  }, 500);
 });

@@ -21,7 +21,7 @@ var availibleColors = colors.slice();
 module.exports = {
 
   setDirection: function(request, response, next){
-    response.json("direction set to " + 
+    response.json( 
       snakeStore[request.session.snake].setDirection(request.body));
   },
 
@@ -69,11 +69,7 @@ module.exports = {
   },
 
   playerStatus: function (request,response, next){
-    var data = _.reduce(myGame.snakes, function(memo, snake){
-      return memo[snake.color] = snake;
-    }, {});
-
-    response.json(data);
+    response.json(myGame.snakes);
   },
 
   // reset: function () {

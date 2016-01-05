@@ -12,6 +12,17 @@
     <button ng-click="connect()" ng-show="!data.connected">Connect</button>
     <button ng-click="disconnect()" ng-show="data.connected">Disconnect</button>
     <button ng-click="ready()">READY!</button>
+
+    <div class="playerStatus">
+      <div ng-repeat="player in data.playerStatus" ng-style="{'background-color': player.color}">
+        <ul>
+          <li>Ready: {{player.ready}}</li>
+          <li>Size: {{player.size}}</li>
+          <li>Dead: {{player.dead}}</li>
+        </ul>
+      </div>
+    </div>
+
       <table class='map'>
         <tr ng-repeat="row in data.map track by $index">
           <td ng-repeat="cellColor in row track by $index" ng-style="{'background-color':cellColor}"></td>
