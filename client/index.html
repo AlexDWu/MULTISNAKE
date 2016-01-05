@@ -6,8 +6,17 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
   </head>
   <body>
-    <div ng-view></div>
+    <div ng-controller = "mapController">
+    <div>{{data.ready}}</div>
+      <table class='map'>
+        <tr ng-repeat="row in data.map track by $index">
+          <td ng-repeat="cellColor in row track by $index" ng-style="{'background-color':cellColor}"></td>
+        </tr>
+      </table>
+    <div>
 
-    <script src="lib/angular/angular.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="app/services/services.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
