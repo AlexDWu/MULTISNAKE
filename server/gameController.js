@@ -24,9 +24,9 @@ module.exports = {
   },
 
   ready: function(request, response, next){
-    //request.session.snake.ready = request.body;
+    snakeStore[request.session.snake].ready = request.body;
     myGame.start();
-    response.json((request.body));
+    response.json((request.session.snake.ready));
   },
 
 }

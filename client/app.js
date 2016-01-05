@@ -23,7 +23,7 @@ angular.module('multiSnake', [])
   };
 })
 
-.controller('mapController', function ($scope, Game) {
+.controller('mapController', function ($scope, $interval, Game) {
   $scope.data = {};
   $scope.data.ready = false;
   $scope.data.map = [];
@@ -31,25 +31,36 @@ angular.module('multiSnake', [])
   Game.connect();
 
   $scope.ready = function () {
-    $scope.data.ready = !this.data.ready;
-    Game.ready(this.data.ready);
+    Game.ready(!$scope.data.ready).then(function (data) {
+      $scope.data.ready = data;
+    });
+  };
+
+  var keyMap = {
+    40: "down",
+    37: "left",
+    39: "right",
+    38: "up",
+    current: "up"
   };
 
   $scope.setDirection = function ($event) {
-    var keyMap = {
-      40: "down",
-      37: "left",
-      39: "right",
-      38: "up"
-    }
     if(keyMap[$event.keyCode]){
-      Game.setDirection(keyMap[$event.keyCode]);
+      var direction = keyMap[$event.keyCode];
+      if (((direction === "up" || direction === "down") && 
+        (keyMap.current === "left" || keyMap.current === "right")) || 
+        ((direction === "left" || direction == "right") &&
+          (keyMap.current === "up" || keyMap.current === "down")))
+      {
+        keyMap.current = direction;
+        Game.setDirection(direction);
+      }
     }
   };
 
-  setInterval(function () {
+  $interval(function () {
     Game.getBoard().then(function(data){
       $scope.data.map = data;
     });  
-  }, 500);
+  }, 250);
 });

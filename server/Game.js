@@ -4,6 +4,7 @@ var Game = function(width, height){
   this.height = height; // game board height
   this.gameBoard = []; // two dimentional array of colors
   this.speed = 500; // step interval;
+  this.food = false;
 
   // set up the game board
   for(var i = 0; i < this.height; i++){
@@ -32,9 +33,19 @@ Game.prototype.step = function () {
         // moving right is positive x
         snake.head.x++;
       }
+      // eat food?
+      if (game.gameBoard[snake.head.y][snake.head.x] === "black"){
+        // reset space
+        game.gameBoard[snake.head.y][snake.head.x] = "grey";
+        // snake grows
+        snake.size++;
+        // need to place another food
+        game.food = false;
+      }
       // check collisions
       if(snake.head.x < 0 || snake.head.y < 0 ||
-        snake.head.x > game.width || snake.head.y > game.height){
+        snake.head.x > game.width || snake.head.y > game.height ||
+        game.gameBoard[snake.head.y][snake.head.x] !== "grey"){
         snake.die()
       }
       if (!snake.dead){
@@ -47,6 +58,15 @@ Game.prototype.step = function () {
       game.removeSnake(snake);
     }
   });
+  // add the food, make sure it's not on top of something
+  while(!game.food){
+    var x = Math.floor(Math.random() * game.width);
+    var y = Math.floor(Math.random() * game.height);
+    if(game.gameBoard[y][x] === "grey"){
+      game.gameBoard[y][x] = "black";
+      game.food = true;
+    }
+  }
   // return whether or not all the snakes are dead
   return this.gameOver();
 }
@@ -59,12 +79,14 @@ Game.prototype.gameOver = function(){
 
 Game.prototype.start = function(){
   // if all the snakes are ready
-  if (this.snakes.reduce(function(memo, snake){
+  if (this.snakes.reduce(function (memo, snake) {
     return memo && snake.ready;
-  }), true){
+  }, true)) {
     var game = this;
+    console.error("game start")
     var intervalID = setInterval(function(){
       if(game.gameOver()){
+        console.error("game over");
         clearInterval(intervalID);
       } else {
         game.step();
@@ -84,6 +106,7 @@ Game.prototype.getBoard = function(){
 // remove the snake from the game
 // maybe keep around in a cemetary for score keeping?
 Game.prototype.removeSnake = function(snake) {
+  this.removeSegements(snake.body);
 };
 
 // remove body segmenst from the game board
