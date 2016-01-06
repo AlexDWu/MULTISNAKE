@@ -4,13 +4,17 @@ var bodyParser = require('body-parser');
 
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
+var client = require('redis').createClient(process.env.REDIS_URL||{
+    host: "localhost",
+    port: 6379,
+  });
+
 
 var app = express();
 // MIDDLEWARE
 app.use(session({
     store: new RedisStore({
-    host: "localhost",
-    port: 6379,
+    client: client,
   }),
   secret: 'keyboard cat',
   resave: false,
