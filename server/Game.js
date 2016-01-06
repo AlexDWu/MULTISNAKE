@@ -9,7 +9,7 @@ var Game = function(width, height){
   this.width = width; // game board width
   this.height = height; // game board height
   this.gameBoard = []; // two dimensional array of colors
-  this.speed = 125; // step interval;
+  this.speed = 250; // step interval;
   this.food = false;
   this.started = false;
 

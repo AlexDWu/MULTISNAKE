@@ -90,7 +90,7 @@ angular.module('multiSnake', [])
     Game.getBoard().then(function (data) {
       $scope.data.map = data;
     });  
-  }, 62);
+  }, 125);
 
   // get player status
   $interval(function () {
