@@ -7,11 +7,10 @@
   </head>
   <body ng-controller="mapController" ng-keydown="setDirection($event)">
     <div>
-    <div ng-style="{'color': data.color}">YOU ARE {{data.color}}</div>
-    <div>{{data.ready}}</div>
     <button ng-click="connect()" ng-show="!data.connected">Connect</button>
     <button ng-click="disconnect()" ng-show="data.connected">Disconnect</button>
     <button ng-click="ready()">READY!</button>
+    <span ng-style="{'color': data.color}">YOU ARE {{data.color}}</span>
 
     <div class="playerStatus">
       <div ng-repeat="player in data.playerStatus" ng-style="{'background-color': player.color}">
